@@ -1,4 +1,4 @@
-Assumptions:
+== Assumptions:
 -You're using a vanilla Kubernetes cluster (e.g., kubeadm, EKS, GKE, etc.) that is already running.
 -You have cluster-admin access to apply manifests.
 -You're okay using monitoring namespace to scope the components.
@@ -24,3 +24,10 @@ The monitoring stack must fulfill the following requirements:
 *Could Have*
 - Modular structure of manifests for easier upgrades
 - Use Kubernetes RBAC policies scoped to minimal permissions needed
+
+== Security & Best Practices
+-readOnlyRootFilesystem: true and allowPrivilegeEscalation: false for container hardening
+-Use of hostNetwork: true ensures consistent port availability on all nodes
+-Resource limits are minimal to avoid node pressure
+-ClusterIP is None to allow scraping pods directly via DNS (node-exporter-<node-name>)
+
