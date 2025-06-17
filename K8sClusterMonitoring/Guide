@@ -1,0 +1,26 @@
+Assumptions:
+-You're using a vanilla Kubernetes cluster (e.g., kubeadm, EKS, GKE, etc.) that is already running.
+-You have cluster-admin access to apply manifests.
+-You're okay using monitoring namespace to scope the components.
+-For external access to Grafana, you're willing to expose it via a Kubernetes Ingress, secured by basic auth or secret-managed credentials.
+-Kubernetes cluster is internet-connected.
+
+== Requirements
+The monitoring stack must fulfill the following requirements:
+*Must Have*
+- Deploy Prometheus using static Kubernetes manifests (Deployment, ConfigMap, Service)
+- Deploy Node Exporter as a DaemonSet on each node
+- Deploy Grafana and configure Prometheus as a data source
+- Include standard dashboards for Node Exporter and Kubernetes metrics
+- Secure Grafana access with admin credentials
+- Persist Prometheus and Grafana data using PersistentVolumeClaims
+- Apply resource requests and limits to all components
+- Use proper Kubernetes labels and annotations
+- Isolate all components in a dedicated `monitoring` namespace
+*Should Have*
+- Expose Grafana via NodePort or `kubectl port-forward`
+- Use anti-affinity for Prometheus to avoid single node dependency
+- Liveness and readiness probes for core components
+*Could Have*
+- Modular structure of manifests for easier upgrades
+- Use Kubernetes RBAC policies scoped to minimal permissions needed
